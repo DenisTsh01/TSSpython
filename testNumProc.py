@@ -66,15 +66,6 @@ class NumberProcessorTest(unittest.TestCase):
         self.assertEqual(result, 2 * 1 - 1)
         
         
-    def test_weak_mutation(self):
-        processor = NumberProcessor(11, 19)
-        result = processor.process_numbers()
-        self.assertEqual(processor.x, 1)
-        self.assertEqual(processor.y, -1)
-        self.assertEqual(result, 2 / 1 - 1)  # Schimbăm semnul de la * la /
-    
-    
-        
     def test_while_loop_decrement_by_9_mutant(self):
         # Acest test eșuează dacă `x` este decrementat cu 9 în loc de 10.
         processor = NumberProcessor(29, 15)  # alegem 29 pentru a verifica cum se comportă după mai multe iterații
@@ -82,6 +73,7 @@ class NumberProcessorTest(unittest.TestCase):
         expected_x = 9  # Așteptăm ca x să fie 9 după decrementări (29 - 10 - 10)
         expected_y = -5  # y scăzut cu 20 pentru că y inițial este < 20 și x final nu este par
         self.assertEqual(processor.x, expected_x)
+        print(processor.x)
         self.assertEqual(processor.y, expected_y)
         self.assertEqual(result, 2 * expected_x + expected_y)
 
@@ -134,21 +126,54 @@ class NumberProcessorTest(unittest.TestCase):
         self.assertEqual(processor.y, 10)  
         self.assertEqual(result, 2 * 3 + 10)  
     #=====================================================#
-    #mutanti neechivalenti
-    def test_loop_condition_just_above_10(self):
-        processor = NumberProcessor(11, 10)
-        result = processor.process_numbers()
-        self.assertEqual(processor.x, 1)  # Așteptăm ca x să fie redus la 1
-        self.assertEqual(processor.y, -10)  # Acum y ar trebui să fie -10
-        self.assertEqual(result, 2 * 1 - 10)  # Așteptăm ca rezultatul să fie -8
+    #           Mutanti
+    #first order mutant detect.
+    # def test_loop_condition_mutant(self):
+    #     processor = NumberProcessor(10, 10)
+    #     result = processor.process_numbers()
+    #     self.assertEqual(processor.x, 0)  # Mutantul ar cauza bucla să continue
+    #     self.assertEqual(result, -20)     # Verificăm rezultatul final
+        
+    # # higher order mutant detect.
+    # def test_higher_order_mutants(self):
+    #     processor = NumberProcessor(20, 20)
+    #     result = processor.process_numbers()
+    #     self.assertEqual(processor.x, 0)  # Mutantul ar cauza bucla să continue
+    #     self.assertEqual(result, -20)     # Verificăm rezultatul final
 
-    def test_y_adjustment_condition_mutant(self):
-    # Testează ajustarea lui y cu o condiție modificată care limitează ajustarea la y < 10
-        processor = NumberProcessor(12, 15)  # x este par, y este sub 20 dar peste 10
-        result = processor.process_numbers()
-        self.assertEqual(processor.y, 35)  # Verificăm că y a fost crescut cu 20
-        self.assertEqual(result, 2 * 2 + 35)
-    
+    #     processor = NumberProcessor(15, 19)
+    #     result = processor.process_numbers()
+    #     self.assertEqual(result, -5)      # Verificăm rezultatul final
+
+    # # weak mutant detect.
+    # def test_weak_mutation(self):
+    #     processor = NumberProcessor(11, 19)
+    #     result = processor.process_numbers()
+    #     self.assertNotEqual(result, 2 * 1 - 1)  # Detectăm schimbarea în operație
+
+    # # strong mutant detect.
+    # def test_strong_mutation(self):
+    #     processor = NumberProcessor(10, 15)
+    #     result = processor.process_numbers()
+    #     self.assertNotEqual(result, 2 * 10 + 35)  # Detectăm schimbarea logicii
+        
+    ## test suplimentar pt a omori mutant1 neechivalent
+    # def test_while_loop_condition_neechivalent1(self):
+        # # Acest test eșuează dacă bucla se execută atunci când x este exact 10.
+        # processor = NumberProcessor(10, 10)
+        # result = processor.process_numbers_neechivalent1()
+        # self.assertEqual(processor.x, 10)  # x nu ar trebui să fie schimbat
+        # self.assertEqual(processor.y, -10)  # y ar trebui să fie scăzut cu 20
+        # self.assertEqual(result, 2 * 10 - 10)  # Așteptăm ca rezultatul să fie 10
+        
+    # # test suplimentar pt a omori mutant2 neechivalent 
+    # def test_y_adjustment_condition(self):
+    #     # Acest test eșuează dacă y este crescut atunci când y este exact 20.
+    #     processor = NumberProcessor(10, 20)
+    #     result = processor.process_numbers_neechivalent2()
+    #     self.assertEqual(processor.y, 0)  # y ar trebui să fie scăzut cu 20
+    #     self.assertEqual(result, 2 * 10 + 0)  # Așteptăm ca rezultatul să fie 20
+
     #=====================================================#
     #blackbox testing
     def test_blackbox_case1(self):

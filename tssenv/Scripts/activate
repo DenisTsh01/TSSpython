@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\toshd\0Facultate\tssultima\tssenv"
+VIRTUAL_ENV="C:\Users\toshd\0Facultate\0TssProject\tssenv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
